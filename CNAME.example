@@ -1,0 +1,14 @@
+www.yourstaplewebsite.com
+
+# Instructions for Custom Domain:
+# 1. Rename this file to just "CNAME" (remove .example)
+# 2. Replace the domain above with your actual domain
+# 3. Configure your DNS settings with your domain provider:
+#    - Add a CNAME record pointing to: YOUR-USERNAME.github.io
+#    - Or add A records pointing to GitHub's IP addresses:
+#      185.199.108.153
+#      185.199.109.153
+#      185.199.110.153
+#      185.199.111.153
+# 4. Commit and push the CNAME file to your repository
+# 5. Wait for DNS propagation (can take up to 24-48 hours)

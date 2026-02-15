@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="STAPLE - Digital Agency – centred, uniform smaller buttons">
+    <meta name="theme-color" content="#2563eb">
+    <title>STAPLE · blue ascii & tools</title>
+    <!-- Font Awesome for professional icons (includes all brands) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ===== BLACK SCROLLBAR (matches site background) ===== */
+        /* For Firefox */
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: #1a1a1a #000000;
+        }
+        /* For Chrome, Edge, Safari */
+        ::-webkit-scrollbar {
+            width: 12px;
+            background-color: #000000; /* black track */
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #1a1a1a; /* dark grey thumb */
+            border-radius: 6px;
+            border: 2px solid #000000; /* blends with track */
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #333333; /* lighter on hover for visibility */
+        }
+        ::-webkit-scrollbar-track {
+            background: #000000; /* pure black track */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #e2e8f0;
+            background: #000;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes glow {
+            0%,100% { text-shadow: 0 0 15px #2563eb; }
+            50% { text-shadow: 0 0 35px #2563eb, 0 0 60px #3b82f6; }
+        }
+        @keyframes bounce {
+            0%,100%{ transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-12px); }
+        }
+
+        /* containers */
+        .container, section:not(.ascii-hero):not(.cta) {
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            width: 100%;
+        }
+
+        /* header */
+        header {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(96,165,250,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 2rem;
+        }
+
+        .logo {
+            cursor: pointer;
+            transition: transform 0.2s ease, filter 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo svg {
+            height: 50px;
+            width: auto;
+        }
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            font-family: Impact, 'Arial Black', sans-serif;
+            color: white;
+        }
+        .logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 10px #60a5fa);
+        }
+        .logo:active { transform: scale(0.98); }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.2s;
+        }
+        nav a:hover { color: #60a5fa; }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #60a5fa;
+            transition: width 0.3s;
+        }
+        nav a:hover::after { width: 100%; }
+
+        /* HERO - ASCII now blue */
+        .ascii-hero {
+            position: relative;
+            min-height: 100vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #output {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            line-height: 1;
+            text-align: center;
+            animation: glow 3s ease-in-out infinite;
+            width: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        #output pre {
+            margin: 0 auto;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .ascii-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            color: white;
+            width: 90%;
+            max-width: 1000px;
+            pointer-events: none;
+        }
+
+        /* STAPLE heading removed – only tagline remains, positioned more centrally */
+        .ascii-overlay p {
+            font-size: 2rem;
+            text-shadow: 0 0 20px #2563eb;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            margin: 0; /* remove default margin */
+            line-height: 1.4;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2.5s infinite;
+            color: #2563eb;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 20;
+        }
+        .scroll-indicator:hover { 
+            transform: translateX(-50%) scale(1.3);
+            color: #60a5fa;
+        }
+
+        /* titles */
+        .section-title {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #60a5fa;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.15rem;
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 4rem;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        /* services grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, #0f172a, #000000);
+            padding: 2rem 1.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(96,165,250,0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+            cursor: default;
+        }
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 18px 45px rgba(96,165,250,0.25);
+            border-color: rgba(96,165,250,0.7);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.4rem;
+            box-shadow: 0 8px 18px rgba(96,165,250,0.4);
+            transition: transform 0.2s;
+        }
+        .service-card:hover .service-icon {
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        .service-icon svg {
+            width: 30px;
+            height: 30px;
+            stroke: white;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: #f1f5f9;
+        }
+
+        .service-card p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ===== TOOLS WE USE SECTION – ENHANCED ===== */
+        .tools-section {
+            background: #0a0c14;
+            padding: 6rem 2rem;
+            border-top: 1px solid rgba(96,165,250,0.1);
+            border-bottom: 1px solid rgba(96,165,250,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tools-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .tools-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tools-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .tools-header h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -0.02em;
+        }
+
+        .tools-header h2 span {
+            color: #60a5fa;
+            font-weight: 800;
+        }
+
+        .tools-header .applications {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            font-weight: 300;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 3rem 2.5rem;
+            padding: 2rem 0;
+        }
+
+        .tool-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: default;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .tool-item:hover {
+            transform: translateY(-8px);
+        }
+
+        .tool-icon-wrapper {
+            position: relative;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tool-icon {
+            font-size: 3.5rem;
+            line-height: 1;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Adobe Badge Styling */
+        .adobe-badge {
+            width: 54px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            border-radius: 8px;
+            background: currentColor;
+            color: #1a1a1a;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Notion Badge Styling */
+        .notion-badge {
+            width: 54px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            border-radius: 8px;
+            background: #FFFFFF;
+            color: #000000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Blender Badge Styling */
+        .blender-badge {
+            width: 54px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            border-radius: 8px;
+            background: #F5792A;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Brand Colors - Enhanced */
+        .tool-item[data-tool="ps"] .adobe-badge { background: #31A8FF; color: #001e36; }
+        .tool-item[data-tool="ai"] .adobe-badge { background: #FF9A00; color: #330000; }
+        .tool-item[data-tool="pr"] .adobe-badge { background: #9999FF; color: #00005b; }
+        .tool-item[data-tool="ae"] .adobe-badge { background: #9999FF; color: #00005b; }
+        .tool-item[data-tool="xd"] .adobe-badge { background: #FF61F6; color: #2e0029; }
+        .tool-item[data-tool="audition"] .adobe-badge { background: #00E4BB; color: #002e2b; }
+        
+        .tool-item[data-tool="nuke"] .tool-icon { color: #FF6B00; }
+        .tool-item[data-tool="html5"] .tool-icon { color: #E44D26; }
+        .tool-item[data-tool="speedgrade"] .tool-icon { color: #7CFC00; }
+        .tool-item[data-tool="figma"] .tool-icon { color: #F24E1E; }
+        .tool-item[data-tool="wix"] .tool-icon { color: #0C6EFC; }
+        .tool-item[data-tool="react"] .tool-icon { color: #61DAFB; }
+        .tool-item[data-tool="node"] .tool-icon { color: #339933; }
+        .tool-item[data-tool="python"] .tool-icon { color: #3776AB; }
+        .tool-item[data-tool="git"] .tool-icon { color: #F05032; }
+        .tool-item[data-tool="vscode"] .tool-icon { color: #007ACC; }
+        .tool-item[data-tool="davinci"] .tool-icon { color: #FF2D55; }
+        .tool-item[data-tool="css"] .tool-icon { color: #1572B6; }
+        .tool-item[data-tool="js"] .tool-icon { color: #F7DF1E; }
+        .tool-item[data-tool="github"] .tool-icon { color: #FFFFFF; }
+
+        .tool-item:hover .tool-icon {
+            transform: scale(1.15) rotate(5deg);
+            filter: drop-shadow(0 8px 20px currentColor);
+        }
+
+        .tool-item:hover .adobe-badge {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .tool-item:hover .notion-badge {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.5);
+        }
+
+        .tool-item:hover .blender-badge {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 8px 24px rgba(245, 121, 42, 0.7);
+        }
+
+        .tool-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            text-align: center;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+
+        .tool-item:hover .tool-label {
+            color: #fff;
+            opacity: 1;
+        }
+
+        /* Animation delays for tools */
+        .tool-item:nth-child(1) { animation-delay: 0.05s; }
+        .tool-item:nth-child(2) { animation-delay: 0.1s; }
+        .tool-item:nth-child(3) { animation-delay: 0.15s; }
+        .tool-item:nth-child(4) { animation-delay: 0.2s; }
+        .tool-item:nth-child(5) { animation-delay: 0.25s; }
+        .tool-item:nth-child(6) { animation-delay: 0.3s; }
+        .tool-item:nth-child(7) { animation-delay: 0.35s; }
+        .tool-item:nth-child(8) { animation-delay: 0.4s; }
+        .tool-item:nth-child(9) { animation-delay: 0.45s; }
+        .tool-item:nth-child(10) { animation-delay: 0.5s; }
+        .tool-item:nth-child(11) { animation-delay: 0.55s; }
+        .tool-item:nth-child(12) { animation-delay: 0.6s; }
+        .tool-item:nth-child(13) { animation-delay: 0.65s; }
+        .tool-item:nth-child(14) { animation-delay: 0.7s; }
+        .tool-item:nth-child(15) { animation-delay: 0.75s; }
+        .tool-item:nth-child(16) { animation-delay: 0.8s; }
+        .tool-item:nth-child(17) { animation-delay: 0.85s; }
+        .tool-item:nth-child(18) { animation-delay: 0.9s; }
+        .tool-item:nth-child(19) { animation-delay: 0.95s; }
+        .tool-item:nth-child(20) { animation-delay: 1.0s; }
+        .tool-item:nth-child(21) { animation-delay: 1.05s; }
+        .tool-item:nth-child(22) { animation-delay: 1.1s; }
+
+        /* How We're Different Section */
+        .how-different-section {
+            background: #000;
+            padding: 6rem 2rem;
+        }
+
+        .how-different-section .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #2563eb;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .how-different-section .section-subtitle {
+            font-size: 1.15rem;
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 4rem;
+            font-weight: 400;
+        }
+
+        .different-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .different-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .different-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .different-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+
+        .different-card p {
+            font-size: 1rem;
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        /* Why Choose STAPLE Section */
+        .why-choose-section {
+            background: #000;
+            padding: 6rem 2rem;
+        }
+
+        .why-choose-section .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #2563eb;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .why-choose-section .section-subtitle {
+            font-size: 1.15rem;
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 4rem;
+            font-weight: 400;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .why-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ---- INDIVIDUAL CIRCLE COLOURS + BLACK TEXT (as requested) ---- */
+        .why-card:nth-child(1) .why-number {
+            background: #e11d1d; /* red */
+            color: #000 !important;   /* black */
+        }
+        .why-card:nth-child(2) .why-number {
+            background: #22c55e; /* green */
+            color: #000 !important;
+        }
+        .why-card:nth-child(3) .why-number {
+            background: #eab308; /* yellow */
+            color: #000 !important;
+        }
+        .why-card:nth-child(4) .why-number {
+            background: #f97316; /* orange */
+            color: #000 !important;
+        }
+
+        .why-number {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .why-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2563eb;
+            margin-bottom: 0.75rem;
+        }
+
+        .why-content p {
+            font-size: 1rem;
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, #1e3a8a, #1e40af);
+            color: white;
+            text-align: center;
+            padding: 6rem 2rem;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cta h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            max-width: 900px;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            max-width: 750px;
+            margin-bottom: 2.5rem;
+            color: #e2e8f0;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: white;
+            padding: 1.15rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            white-space: nowrap;
+            border: 1px solid transparent;
+        }
+        .cta-button:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 18px 45px rgba(96,165,250,0.4);
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .cta-button:active { transform: translateY(-2px) scale(1.01); }
+
+        /* unified contact section */
+        .contact-unified-section {
+            background: #000;
+            padding: 5rem 2rem;
+        }
+
+        .unified-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 3.5rem;
+        }
+
+        /* single contact row - NO DOTTED LINE UNDER EMAIL */
+        .contact-single-row {
+            background: #000;
+            border-radius: 28px;
+            padding: 1.8rem 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .contact-single-row:hover {
+            box-shadow: 0 12px 30px rgba(96,165,250,0.2);
+            transform: translateY(-4px);
+            background: #0a0a0a;
+        }
+
+        .contact-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-label {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: white;
+            letter-spacing: 0.5px;
+            background: #000;
+            padding: 0.5rem 1.8rem;
+            border-radius: 60px;
+            transition: 0.2s;
+        }
+        .contact-single-row:hover .contact-label {
+            background: #0a0a0a;
+        }
+
+        .contact-email-block {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .contact-email-block svg {
+            width: 28px;
+            height: 28px;
+            stroke: #60a5fa;
+            stroke-width: 2;
+            fill: none;
+            transition: transform 0.2s;
+        }
+        .contact-email-block a {
+            color: #e2e8f0;
+            font-size: 1.4rem;
+            text-decoration: none;
+            font-weight: 500;
+            /* border-bottom removed - no dotted line */
+            transition: color 0.2s;
+        }
+        .contact-email-block a:hover {
+            color: #60a5fa;
+        }
+        .contact-email-block:hover svg {
+            transform: scale(1.1);
+            stroke: #93c5fd;
+        }
+
+        /* Team & follow side by side */
+        .team-follow-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .team-box, .follow-box {
+            background: #000;
+            border-radius: 28px;
+            padding: 2rem 2rem;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .team-box:hover, .follow-box:hover {
+            box-shadow: 0 12px 30px rgba(96,165,250,0.15);
+            transform: translateY(-4px);
+            background: #0a0a0a;
+        }
+
+        .team-box h3, .follow-box h3 {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-bottom: 1.8rem;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+        .team-box:hover h3, .follow-box:hover h3 { color: #bfdbfe; }
+
+        .team-names {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .team-person {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.2s;
+        }
+        .team-person:hover { transform: translateX(8px); }
+        .team-person .name {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+        .team-person .linkedin-link {
+            color: #0077B5;
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+        }
+        .team-person .linkedin-link svg {
+            transition: transform 0.2s;
+        }
+        .team-person .linkedin-link:hover {
+            transform: scale(1.15);
+        }
+        .team-person .linkedin-link:hover svg {
+            transform: scale(1.15);
+        }
+
+        .follow-box .social-row {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .follow-box .social-row a {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            color: #cbd5e1;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+            background: #000;
+            padding: 0.6rem 1.6rem;
+            border-radius: 40px;
+        }
+        .follow-box .social-row a:hover {
+            color: white;
+            background: #0a0a0a;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 18px rgba(96,165,250,0.2);
+        }
+        .follow-box .social-row a:active { transform: translateY(0); }
+        .follow-box .social-row svg {
+            width: 24px;
+            height: 24px;
+            stroke: #60a5fa;
+            stroke-width: 2;
+            fill: none;
+            transition: transform 0.2s;
+        }
+        .follow-box .social-row svg.linkedin-svg {
+            stroke: none;
+            stroke-width: 0;
+        }
+        .follow-box .social-row i {
+            font-size: 24px;
+            transition: transform 0.2s;
+        }
+        .follow-box .social-row a:hover svg,
+        .follow-box .social-row a:hover i { 
+            transform: scale(1.1); 
+        }
+        .follow-box .social-row a.instagram svg { stroke: #E4405F; }
+        .follow-box .social-row a.linkedin i { color: #0077B5; }
+
+        /* animation delays for tools */
+        .tool-item {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        .tool-item:nth-child(1) { animation-delay: 0.05s; }
+        .tool-item:nth-child(2) { animation-delay: 0.1s; }
+        .tool-item:nth-child(3) { animation-delay: 0.15s; }
+        .tool-item:nth-child(4) { animation-delay: 0.2s; }
+        .tool-item:nth-child(5) { animation-delay: 0.25s; }
+        .tool-item:nth-child(6) { animation-delay: 0.3s; }
+        .tool-item:nth-child(7) { animation-delay: 0.35s; }
+        .tool-item:nth-child(8) { animation-delay: 0.4s; }
+        .tool-item:nth-child(9) { animation-delay: 0.45s; }
+        .tool-item:nth-child(10) { animation-delay: 0.5s; }
+
+        /* responsive */
+        @media (max-width: 1024px) {
+            .services-grid { grid-template-columns: repeat(2,1fr); }
+            .why-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            nav { flex-direction: column; gap: 0.8rem; }
+            nav ul { gap: 2rem; }
+            .ascii-overlay p { font-size: 1.3rem; } /* adjusted for mobile */
+            .section-title { font-size: 2.2rem; }
+            .cta h2 { font-size: 2rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            
+            .contact-single-row { flex-direction: column; align-items: flex-start; }
+            .team-follow-row { grid-template-columns: 1fr; }
+            .contact-left { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .contact-email-block a { font-size: 1.2rem; word-break: break-all; }
+            .follow-box .social-row { flex-wrap: wrap; }
+            
+            .tools-header { flex-direction: column; align-items: flex-start; }
+            .tools-grid { gap: 2rem; }
+            .tool-icon { font-size: 2.8rem; }
+            
+            .different-grid { grid-template-columns: 1fr; }
+            .why-grid { grid-template-columns: 1fr; }
+            .how-different-section .section-title,
+            .why-choose-section .section-title { font-size: 2.2rem; }
+        }
+
+        @media (max-width: 480px) {
+            #output { font-size: 5px; }
+            .ascii-overlay p { font-size: 1.1rem; }
+            nav ul { gap: 1.2rem; }
+            .tools-grid { gap: 1.5rem; }
+            .different-card, .why-card { padding: 1.5rem; }
+            .why-number { width: 60px; height: 60px; font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo" id="homeLogo" style="cursor: pointer;" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <svg width="50" height="50" viewBox="0 0 342 345" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(0,345) scale(0.1,-0.1)" fill="#2563EB">
+                        <path d="M1587 3400 l-377 -5 -22 -35 c-11 -19 -35 -60 -51 -90 -33 -61 -179
+-319 -237 -420 -20 -36 -51 -92 -69 -125 l-33 -60 71 -119 c44 -73 68 -123 62
+-129 -6 -6 -44 10 -98 41 -103 58 -71 66 -293 -68 -80 -47 -228 -135 -330
+-195 -102 -59 -186 -109 -188 -110 -2 -2 -3 -189 -2 -416 0 -314 3 -416 13
+-426 6 -6 109 -66 227 -133 118 -67 277 -158 353 -201 77 -44 141 -79 144 -79
+3 0 59 32 123 70 64 39 120 70 124 70 17 0 2 -43 -39 -110 -24 -41 -45 -80
+-45 -85 0 -11 102 -187 304 -528 l117 -197 347 1 c191 0 381 3 423 6 l77 5 60
+107 c287 507 342 606 342 618 0 7 -29 62 -65 122 -36 60 -65 117 -65 126 0 13
+22 5 96 -36 83 -45 99 -50 120 -40 13 6 106 60 207 119 100 60 250 149 332
+197 83 49 153 94 157 99 4 6 5 196 2 421 -5 365 -8 411 -22 423 -10 8 -78 48
+-152 89 -74 42 -228 129 -343 195 -114 65 -215 118 -224 118 -9 0 -24 -6 -32
+-13 -31 -26 -191 -117 -206 -117 -22 0 -20 8 36 104 l50 88 -78 132 c-42 72
+-121 205 -174 296 -185 314 -174 300 -222 298 -23 -2 -212 -5 -420 -8z m363
+-86 c0 -9 -15 -42 -33 -73 -19 -31 -69 -119 -112 -196 -136 -242 -174 -310
+-182 -321 -6 -9 -108 -13 -353 -15 -306 -4 -345 -2 -348 12 -4 23 325 597 346
+602 9 2 167 4 350 6 304 2 332 1 332 -15z m-328 -691 c9 -10 53 -81 98 -158
+46 -77 107 -180 137 -230 51 -85 54 -93 51 -150 l-3 -60 -315 -6 c-277 -4
+-317 -3 -328 10 -36 43 -343 575 -338 587 4 11 49 14 228 17 123 1 275 3 339
+5 100 2 118 0 131 -15z m983 -451 c4 -187 5 -347 1 -358 -3 -10 -34 -35 -68
+-54 -104 -58 -129 -73 -248 -144 -63 -38 -129 -77 -146 -87 -17 -9 -42 -23
+-55 -31 -13 -7 -35 -21 -48 -31 -50 -36 -51 -26 -49 351 l3 346 75 45 c41 24
+172 102 290 172 118 70 220 128 226 128 8 1 14 -96 19 -337z m386 173 c161
+-91 296 -171 300 -178 10 -18 17 -674 8 -689 -10 -15 -14 -13 -364 185 -126
+71 -236 137 -242 145 -15 19 -19 702 -4 702 4 0 140 -74 302 -165z m-2803
+-402 c37 -20 159 -88 272 -152 113 -64 214 -121 225 -126 18 -9 21 -24 26
+-125 4 -63 7 -222 8 -352 1 -267 5 -256 -71 -214 -77 42 -231 129 -303 169
+-38 21 -108 60 -154 86 -52 29 -87 54 -92 69 -5 13 -9 172 -9 353 0 294 2 329
+16 329 9 0 46 -16 82 -37z m1216 -306 c4 -163 5 -308 2 -322 -4 -16 -27 -36
+-69 -60 -66 -39 -77 -45 -343 -203 -95 -56 -179 -102 -188 -102 -15 0 -16 32
+-14 352 l3 352 120 71 c393 235 354 215 420 212 l60 -2 9 -298z m516 -242 c6
+-43 -6 -35 268 -187 l113 -63 85 -142 c97 -163 101 -171 83 -177 -8 -3 -166
+-6 -352 -9 l-338 -4 -71 121 c-39 67 -105 177 -146 246 -62 103 -76 134 -80
+177 -7 84 -12 82 226 80 l207 -2 5 -40z m555 -655 c4 -6 -26 -68 -66 -138 -40
+-70 -86 -152 -102 -182 -17 -30 -60 -107 -97 -170 l-66 -115 -159 -7 c-88 -5
+-245 -7 -350 -5 -169 2 -190 4 -189 18 1 9 50 102 109 205 123 216 179 315
+202 361 11 22 25 33 42 35 14 2 171 5 347 6 235 3 324 1 329 -8z"/>
+                    </g>
+                </svg>
+                <span class="logo-text">STAPLE</span>
+            </div>
+            <ul>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="#cta">About</a></li>
+                <li><a href="#contact-unified">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ASCII HERO - now with blue glow, STAPLE heading removed, tagline moved up -->
+    <section class="ascii-hero">
+        <!-- ASCII output container is kept empty – animation removed per request -->
+        <div id="output"></div>
+        <div class="ascii-overlay">
+            <!-- <h1>STAPLE</h1> removed as requested -->
+            <p>STORY TELLING | PRODUCT DEVELOPMENT</p>
+        </div>
+        <div class="scroll-indicator" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">↓</div>
+    </section>
+
+    <main>
+        <!-- SERVICES -->
+        <section id="services" style="padding: 6rem 2rem;">
+            <div class="container" style="max-width:1200px; margin:0 auto;">
+                <h2 class="section-title">Our Services</h2>
+                <p class="section-subtitle">Comprehensive digital solutions tailored to your business needs with cutting-edge technology and creative excellence</p>
+                
+                <div class="services-grid">
+                    <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><h3>Web Design</h3><p>Beautiful, responsive websites that captivate your audience and drive conversions.</p></div>
+                    <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div><h3>Web Development</h3><p>Custom web applications built with cutting-edge technologies. Fast, secure, scalable.</p></div>
+                    <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6M5.64 5.64l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M5.64 18.36l4.24-4.24m4.24-4.24l4.24-4.24"/></svg></div><h3>Digital Automation</h3><p>Streamline your business processes with intelligent automation solutions.</p></div>
+                    <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div><h3>Digital Marketing</h3><p>Data-driven strategies that increase visibility and drive qualified traffic.</p></div>
+                    <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg></div><h3>Branding</h3><p>Complete brand identity solutions that make your business stand out.</p></div>
+                    <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><h3>Analytics & SEO</h3><p>Advanced analytics and search engine optimization to maximize online presence.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOOLS WE USE SECTION – ENHANCED -->
+        <section id="tools" class="tools-section">
+            <div class="tools-container">
+                <div class="tools-header">
+                    <h2><span>Tools</span> We Use</h2>
+                    <div class="applications">// comprehensive toolkit</div>
+                </div>
+
+                <div class="tools-grid">
+                    <!-- Adobe Creative Suite with Product Badges -->
+                    <div class="tool-item" data-tool="ps">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon adobe-badge">Ps</div>
+                        </div>
+                        <span class="tool-label">Photoshop</span>
+                    </div>
+                    
+                    <div class="tool-item" data-tool="ai">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon adobe-badge">Ai</div>
+                        </div>
+                        <span class="tool-label">Illustrator</span>
+                    </div>
+                    
+                    <div class="tool-item" data-tool="pr">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon adobe-badge">Pr</div>
+                        </div>
+                        <span class="tool-label">Premiere Pro</span>
+                    </div>
+                    
+                    <div class="tool-item" data-tool="ae">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon adobe-badge">Ae</div>
+                        </div>
+                        <span class="tool-label">After Effects</span>
+                    </div>
+
+                    <div class="tool-item" data-tool="xd">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon adobe-badge">Xd</div>
+                        </div>
+                        <span class="tool-label">XD</span>
+                    </div>
+                    
+                    <div class="tool-item" data-tool="audition">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon adobe-badge">Au</div>
+                        </div>
+                        <span class="tool-label">Audition</span>
+                    </div>
+
+                    <!-- Design & Prototyping -->
+                    <div class="tool-item" data-tool="figma">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon"><i class="fab fa-figma"></i></div>
+                        </div>
+                        <span class="tool-label">Figma</span>
+                    </div>
+
+                    <!-- 3D & VFX -->
+                    <div class="tool-item" data-tool="blender">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon blender-badge">B</div>
+                        </div>
+                        <span class="tool-label">Blender</span>
+                    </div>
+                    
+                    <div class="tool-item" data-tool="nuke">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon"><i class="fas fa-atom"></i></div>
+                        </div>
+                        <span class="tool-label">Nuke</span>
+                    </div>
+
+                    <div class="tool-item" data-tool="davinci">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon"><i class="fas fa-film"></i></div>
+                        </div>
+                        <span class="tool-label">DaVinci</span>
+                    </div>
+
+                    <div class="tool-item" data-tool="speedgrade">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon"><i class="fas fa-palette"></i></div>
+                        </div>
+                        <span class="tool-label">SpeedGrade</span>
+                    </div>
+                    
+                    <!-- Web Development -->
+                    <div class="tool-item" data-tool="html5">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon"><i class="fab fa-html5"></i></div>
+                        </div>
+                        <span class="tool-label">HTML5</span>
+                    </div>
+
+                    <div class="tool-item" data-tool="css">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon"><i class="fab fa-css3-alt"></i></div>
+                        </div>
+                        <span class="tool-label">CSS3</span>
+                    </div>
+
+                    <div class="tool-item" data-tool="js">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon"><i class="fab fa-js"></i></div>
+                        </div>
+                        <span class="tool-label">JavaScript</span>
+                    </div>
+                    
+                    <div class="tool-item" data-tool="react">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon"><i class="fab fa-react"></i></div>
+                        </div>
+                        <span class="tool-label">React</span>
+                    </div>
+                    
+                    <div class="tool-item" data-tool="node">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon"><i class="fab fa-node-js"></i></div>
+                        </div>
+                        <span class="tool-label">Node.js</span>
+                    </div>
+                    
+                    <div class="tool-item" data-tool="python">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon"><i class="fab fa-python"></i></div>
+                        </div>
+                        <span class="tool-label">Python</span>
+                    </div>
+
+                    <!-- Version Control & Tools -->
+                    <div class="tool-item" data-tool="git">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon"><i class="fab fa-git-alt"></i></div>
+                        </div>
+                        <span class="tool-label">Git</span>
+                    </div>
+
+                    <div class="tool-item" data-tool="github">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon"><i class="fab fa-github"></i></div>
+                        </div>
+                        <span class="tool-label">GitHub</span>
+                    </div>
+
+                    <div class="tool-item" data-tool="vscode">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon"><i class="fas fa-terminal"></i></div>
+                        </div>
+                        <span class="tool-label">VS Code</span>
+                    </div>
+
+                    <!-- Productivity & Platforms -->
+                    <div class="tool-item" data-tool="notion">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon notion-badge">N</div>
+                        </div>
+                        <span class="tool-label">Notion</span>
+                    </div>
+                    
+                    <div class="tool-item" data-tool="wix">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon"><i class="fab fa-wix"></i></div>
+                        </div>
+                        <span class="tool-label">Wix</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW WE'RE DIFFERENT -->
+        <section id="about" class="how-different-section">
+            <h2 class="section-title">How We're Different</h2>
+            <p class="section-subtitle">Three key reasons to partner with STAPLE</p>
+            
+            <div class="different-grid">
+                <div class="different-card">
+                    <h3>Direct Communication</h3>
+                    <p>Work directly with your dedicated designer and developer. No project managers or communication barriers. Your vision is clear from day one.</p>
+                </div>
+                
+                <div class="different-card">
+                    <h3>Flexible & Adaptive</h3>
+                    <p>We understand things change. Our iterative approach means we adapt quickly to your needs without scope creep or hidden costs.</p>
+                </div>
+                
+                <div class="different-card">
+                    <h3>Developer-Ready Design</h3>
+                    <p>Our designs aren't just beautiful—they're built for scalability. Clean handoffs, clear specifications, and technical consideration from the start.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE STAPLE (numbered circles now red, green, yellow, orange, text black) -->
+        <section class="why-choose-section">
+            <h2 class="section-title">Why Choose STAPLE</h2>
+            <p class="section-subtitle">We combine expertise with innovation to deliver exceptional results</p>
+            
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-number">01</div>
+                    <div class="why-content">
+                        <h3>Industry Expertise</h3>
+                        <p>With years of experience across multiple industries, we understand your unique challenges and deliver proven solutions.</p>
+                    </div>
+                </div>
+                
+                <div class="why-card">
+                    <div class="why-number">02</div>
+                    <div class="why-content">
+                        <h3>Fast & Reliable</h3>
+                        <p>Quick turnarounds without compromising quality. Your project timeline is our priority, with transparent communication throughout.</p>
+                    </div>
+                </div>
+                
+                <div class="why-card">
+                    <div class="why-number">03</div>
+                    <div class="why-content">
+                        <h3>Results-Driven Approach</h3>
+                        <p>Every project is measured by real outcomes. We focus on metrics that matter and continuously optimize for success.</p>
+                    </div>
+                </div>
+                
+                <div class="why-card">
+                    <div class="why-number">04</div>
+                    <div class="why-content">
+                        <h3>Dedicated Support</h3>
+                        <p>You get a dedicated team that understands your vision. Direct communication, no middlemen, just results.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section id="cta" class="cta">
+            <h2>Ready to Transform Your Business?</h2>
+            <p>Let's create something amazing together. Get started with a free consultation today.</p>
+            <div class="cta-buttons">
+                <a href="#contact-unified"><button class="cta-button">Book a Consultation</button></a>
+            </div>
+        </section>
+
+        <!-- UNIFIED CONTACT / TEAM / FOLLOW -->
+        <section id="contact-unified" class="contact-unified-section">
+            <div class="unified-grid">
+                <!-- single contact row - no dotted line -->
+                <div class="contact-single-row">
+                    <div class="contact-left">
+                        <span class="contact-label">Contact</span>
+                        <div class="contact-email-block">
+                            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            <a href="mailto:staple.enquiry@gmail.com">staple.enquiry@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- team + follow -->
+                <div class="team-follow-row">
+                    <div class="team-box">
+                        <h3>Team</h3>
+                        <div class="team-names">
+                            <div class="team-person">
+                                <span class="name">Taarun Nagendra Prasad</span>
+                                <a href="https://www.linkedin.com/in/taarun-nagendra-prasad" target="_blank" class="linkedin-link" title="LinkedIn">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="24" height="24" rx="4" fill="#0077B5"/>
+                                        <path d="M7.5 9.5H5V19H7.5V9.5Z" fill="white"/>
+                                        <path d="M6.25 5C5.56 5 5 5.56 5 6.25C5 6.94 5.56 7.5 6.25 7.5C6.94 7.5 7.5 6.94 7.5 6.25C7.5 5.56 6.94 5 6.25 5Z" fill="white"/>
+                                        <path d="M13.5 9.5H11V19H13.5V13.75C13.5 11.5 16.5 11.35 16.5 13.75V19H19V12.75C19 8.75 14.5 8.95 13.5 10.75V9.5Z" fill="white"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="team-person">
+                                <span class="name">M Balasubramanya</span>
+                                <a href="http://linkedin.com/in/m-balasubramanya" target="_blank" class="linkedin-link" title="LinkedIn">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="24" height="24" rx="4" fill="#0077B5"/>
+                                        <path d="M7.5 9.5H5V19H7.5V9.5Z" fill="white"/>
+                                        <path d="M6.25 5C5.56 5 5 5.56 5 6.25C5 6.94 5.56 7.5 6.25 7.5C6.94 7.5 7.5 6.94 7.5 6.25C7.5 5.56 6.94 5 6.25 5Z" fill="white"/>
+                                        <path d="M13.5 9.5H11V19H13.5V13.75C13.5 11.5 16.5 11.35 16.5 13.75V19H19V12.75C19 8.75 14.5 8.95 13.5 10.75V9.5Z" fill="white"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="follow-box">
+                        <h3>Follow Us</h3>
+                        <div class="social-row">
+                            <a href="https://www.instagram.com/staples.agency/" target="_blank" rel="noopener" class="instagram">
+                                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                                Instagram
+                            </a>
+                            <a href="https://www.linkedin.com/in/staples-agency" target="_blank" rel="noopener" class="linkedin">
+                                <svg class="linkedin-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="24" height="24" rx="4" fill="#0077B5"/>
+                                    <path d="M7.5 9.5H5V19H7.5V9.5Z" fill="white"/>
+                                    <path d="M6.25 5C5.56 5 5 5.56 5 6.25C5 6.94 5.56 7.5 6.25 7.5C6.94 7.5 7.5 6.94 7.5 6.25C7.5 5.56 6.94 5 6.25 5Z" fill="white"/>
+                                    <path d="M13.5 9.5H11V19H13.5V13.75C13.5 11.5 16.5 11.35 16.5 13.75V19H19V12.75C19 8.75 14.5 8.95 13.5 10.75V9.5Z" fill="white"/>
+                                </svg>
+                                LinkedIn
+                            </a>
+                            <a href="#" style="opacity:0.9;"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> Facebook</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Removed ASCII animation script completely – no changes to any other element -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // ASCII animation removed – hero section now static with blue glow on empty #output
+        // smooth scroll for all anchor links (kept exactly as before)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // interactive pulse on cards (optional) – exactly as original
+        document.querySelectorAll('.service-card, .contact-single-row, .team-box, .follow-box, .tool-item').forEach(el => {
+            el.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'A') {
